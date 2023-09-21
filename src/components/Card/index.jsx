@@ -2,8 +2,15 @@ import React from "react";
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const CustomCard = ({ product, isUserProducts, onDelete }) => {
+const CustomCard = ({
+  product,
+  isUserProducts,
+  onDelete,
+  favorites,
+  onFavorite 
+}) => {
   const navigate = useNavigate();
+  const isFav = !isUserProducts && favorites.find(fav => fav.id === product.id);
 
   return (
     <Card style={{ width: "18rem" }}>
@@ -18,6 +25,13 @@ const CustomCard = ({ product, isUserProducts, onDelete }) => {
             variant="primary">
             Details
           </Button>
+          {!isUserProducts && (
+            <Button 
+              variant={isFav ? 'danger' : 'primary'}
+              onClick={() => onFavorite(product)}>
+                Favorite
+            </Button>
+          )}
           {isUserProducts && (
             <>
               <Button variant="danger" onClick={() => onDelete(product.id)}>
